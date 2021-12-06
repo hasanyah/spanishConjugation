@@ -20,7 +20,7 @@ with open('output.csv', 'w', newline='') as csvfile:
             print(response.json())
         else:
             tree = html.fromstring(response.content)
-            table = np.array(tree.xpath('(//table[@class="_2WLTGmgs"])[1]//td[@class="_3_AB7VNM"]//a/@aria-label'))
+            table = np.array(list(map(lambda x: x.replace(',', '/'),tree.xpath('(//table[@class="_2WLTGmgs"])[1]//td[@class="_3_AB7VNM"]//a/@aria-label'))))
             transposed = np.array(np.split(table, len(table) // 5)).transpose().flatten()
             transposed = list(zip(cycle(subjects), cycle(["("+verb+")"]), cycle(tenses), transposed))
             for tpl in transposed:
